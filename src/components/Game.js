@@ -2,22 +2,24 @@ import React, { useState } from "react";
 import Board from "./Board";
 
 export default function Game(props) {
-  const nSquares = Math.pow(props.size, 2);
+  const nSquares = Math.pow(props.boardSize, 2);
 
-  const winningCombinations = getTicTacToeCombinations(props.size);
+  const winningCombinations = getTicTacToeCombinations(props.boardSize);
 
-  const [history, setHistory] = useState([
-    {
-      squares: Array(nSquares).fill(null),
-      lastMove: [],
-    },
-  ]);
+  const getInitialBoard = () => {
+    return [
+      {
+        squares: Array(Math.pow(props.boardSize, 2)).fill(null),
+        lastMove: [],
+      },
+    ];
+  };
+
+  const [history, setHistory] = useState(getInitialBoard());
   const [stepNumber, setStepNumber] = useState(0);
   const [ascendingOrder, setAscendingOrder] = useState(true);
 
-  const xIsNext = () => {
-    return stepNumber % 2 === 0;
-  };
+  const xIsNext = () => stepNumber % 2 === 0;
 
   const calculateWinner = (squares) => {
     for (let i = 0; i < winningCombinations.length; i++) {
@@ -40,8 +42,8 @@ export default function Game(props) {
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) return;
     squares[i] = xIsNext() ? "X" : "O";
-    const row = Math.floor(i / props.size);
-    const col = i % props.size;
+    const row = Math.floor(i / props.boardSize);
+    const col = i % props.boardSize;
     setHistory(
       h.concat([
         {
@@ -97,13 +99,13 @@ export default function Game(props) {
         />
       </div>
       <div className="game-info">
-        <div>{status}</div>
         <div>
           <i
             className={ascendingOrder ? "arrow up" : "arrow down"}
             onClick={() => setAscendingOrder(!ascendingOrder)}
-          ></i>
+          />
         </div>
+        <div>{status}</div>
         <ol start={0}>{moves}</ol>
       </div>
     </div>
@@ -120,12 +122,15 @@ function getTicTacToeCombinations(size) {
       let x = col + row * size;
       if (col < size - 2) {
         rows.push([x, x + 1, x + 2]);
-        if (row < size - 2)
+        if (row < size - 2) {
           diagonals.push([x, x + 1 + 1 * size, x + 2 + 2 * size]);
+        }
       }
       if (row < size - 2) {
         columns.push([x, x + 1 * size, x + 2 * size]);
-        if (col >= 2) diagonals.push([x, x - 1 + 1 * size, x - 2 + 2 * size]);
+        if (col >= 2) {
+          diagonals.push([x, x - 1 + 1 * size, x - 2 + 2 * size]);
+        }
       }
     }
   }

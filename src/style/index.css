@@ -33,6 +33,13 @@ ul {
   width: 34px;
 }
 
+.size-input {
+  width: 50px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 .highlighted {
   background: rgb(124, 206, 100);
 }
@@ -52,6 +59,7 @@ ul {
 
 .game-info {
   margin-left: 20px;
+  margin-right: 20px;
 }
 
 .arrow {
