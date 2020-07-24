@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Board from "./Board";
 
 export default function Game(props) {
+<<<<<<< HEAD
   const nSquares = Math.pow(props.boardSize, 2);
 
   const winningCombinations = getTicTacToeCombinations(props.boardSize);
@@ -20,6 +21,24 @@ export default function Game(props) {
   const [ascendingOrder, setAscendingOrder] = useState(true);
 
   const xIsNext = () => stepNumber % 2 === 0;
+=======
+  const nSquares = Math.pow(props.size, 2);
+
+  const winningCombinations = getTicTacToeCombinations(props.size);
+
+  const [history, setHistory] = useState([
+    {
+      squares: Array(nSquares).fill(null),
+      lastMove: [],
+    },
+  ]);
+  const [stepNumber, setStepNumber] = useState(0);
+  const [ascendingOrder, setAscendingOrder] = useState(true);
+
+  const xIsNext = () => {
+    return stepNumber % 2 === 0;
+  };
+>>>>>>> 2b326b5a6f788c67b0b6f156192e8f940985bcad
 
   const calculateWinner = (squares) => {
     for (let i = 0; i < winningCombinations.length; i++) {
@@ -42,8 +61,13 @@ export default function Game(props) {
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) return;
     squares[i] = xIsNext() ? "X" : "O";
+<<<<<<< HEAD
     const row = Math.floor(i / props.boardSize);
     const col = i % props.boardSize;
+=======
+    const row = Math.floor(i / props.size);
+    const col = i % props.size;
+>>>>>>> 2b326b5a6f788c67b0b6f156192e8f940985bcad
     setHistory(
       h.concat([
         {
@@ -99,13 +123,22 @@ export default function Game(props) {
         />
       </div>
       <div className="game-info">
+<<<<<<< HEAD
+=======
+        <div>{status}</div>
+>>>>>>> 2b326b5a6f788c67b0b6f156192e8f940985bcad
         <div>
           <i
             className={ascendingOrder ? "arrow up" : "arrow down"}
             onClick={() => setAscendingOrder(!ascendingOrder)}
+<<<<<<< HEAD
           />
         </div>
         <div>{status}</div>
+=======
+          ></i>
+        </div>
+>>>>>>> 2b326b5a6f788c67b0b6f156192e8f940985bcad
         <ol start={0}>{moves}</ol>
       </div>
     </div>
@@ -122,6 +155,7 @@ function getTicTacToeCombinations(size) {
       let x = col + row * size;
       if (col < size - 2) {
         rows.push([x, x + 1, x + 2]);
+<<<<<<< HEAD
         if (row < size - 2) {
           diagonals.push([x, x + 1 + 1 * size, x + 2 + 2 * size]);
         }
@@ -131,6 +165,14 @@ function getTicTacToeCombinations(size) {
         if (col >= 2) {
           diagonals.push([x, x - 1 + 1 * size, x - 2 + 2 * size]);
         }
+=======
+        if (row < size - 2)
+          diagonals.push([x, x + 1 + 1 * size, x + 2 + 2 * size]);
+      }
+      if (row < size - 2) {
+        columns.push([x, x + 1 * size, x + 2 * size]);
+        if (col >= 2) diagonals.push([x, x - 1 + 1 * size, x - 2 + 2 * size]);
+>>>>>>> 2b326b5a6f788c67b0b6f156192e8f940985bcad
       }
     }
   }
