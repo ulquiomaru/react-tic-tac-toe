@@ -153,6 +153,5 @@ function getTicTacToeCombinations(size, match) {
     }
   }
 
-  console.log(diagonals);
   return [...rows, ...columns, ...diagonals];
 }
