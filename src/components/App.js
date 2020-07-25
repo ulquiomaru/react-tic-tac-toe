@@ -7,7 +7,9 @@ export default function App() {
 
   const changeBoardSize = (e) => {
     const val = e.target.value;
-    if (val >= 3) setBoardSize(parseInt(val));
+    if (val < 3) return;
+    setBoardSize(parseInt(val));
+    if (val < match) setMatch(val);
   };
 
   const changeMatchCondition = (e) => {
