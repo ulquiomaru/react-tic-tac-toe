@@ -4,7 +4,10 @@ import Board from "./Board";
 export default function Game(props) {
   const nSquares = Math.pow(props.boardSize, 2);
 
-  const winningCombinations = getTicTacToeCombinations(props.boardSize);
+  const winningCombinations = getTicTacToeCombinations(
+    props.boardSize,
+    props.match
+  );
 
   const getInitialBoard = () => {
     return [
@@ -24,14 +27,12 @@ export default function Game(props) {
   const calculateWinner = (squares) => {
     for (let i = 0; i < winningCombinations.length; i++) {
       const line = winningCombinations[i];
-      const [a, b, c] = line;
-      if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[a] === squares[c]
-      ) {
-        return { player: squares[a], winningSquares: line };
-      }
+      const player = squares[line[0]];
+      if (!player) continue;
+      const boardLine = line.map((index) => squares[index]);
+      const set = [...new Set(boardLine)];
+      if (set.length === 1 && set[0] === player)
+        return { player: squares[line[0]], winningSquares: line };
     }
     return null;
   };
@@ -112,24 +113,41 @@ export default function Game(props) {
   );
 }
 
-function getTicTacToeCombinations(size) {
+function getTicTacToeCombinations(size, match) {
   let rows = [];
   let columns = [];
   let diagonals = [];
+  const threshold = size - match;
 
   for (let col = 0; col < size; col++) {
     for (let row = 0; row < size; row++) {
       let x = col + row * size;
-      if (col < size - 2) {
-        rows.push([x, x + 1, x + 2]);
-        if (row < size - 2) {
-          diagonals.push([x, x + 1 + 1 * size, x + 2 + 2 * size]);
+      if (col <= threshold) {
+        let row = [];
+        for (let i = 0; i < match; i++) {
+          row.push(x + i);
+        }
+        rows.push(row);
+        if (row <= threshold) {
+          let diagonal = [];
+          for (let i = 0; i < match; i++) {
+            diagonal.push(x + i + i * size);
+          }
+          diagonals.push(diagonal);
         }
       }
-      if (row < size - 2) {
-        columns.push([x, x + 1 * size, x + 2 * size]);
-        if (col >= 2) {
-          diagonals.push([x, x - 1 + 1 * size, x - 2 + 2 * size]);
+      if (row <= threshold) {
+        let column = [];
+        for (let i = 0; i < match; i++) {
+          column.push(x + i * size);
+        }
+        columns.push(column);
+        if (col >= match - 1) {
+          let diagonal = [];
+          for (let i = 0; i < match; i++) {
+            diagonal.push(x - i + i * size);
+          }
+          diagonals.push(diagonal);
         }
       }
     }
