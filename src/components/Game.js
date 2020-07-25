@@ -128,13 +128,6 @@ function getTicTacToeCombinations(size, match) {
           row.push(x + i);
         }
         rows.push(row);
-        if (row <= threshold) {
-          let diagonal = [];
-          for (let i = 0; i < match; i++) {
-            diagonal.push(x + i + i * size);
-          }
-          diagonals.push(diagonal);
-        }
       }
       if (row <= threshold) {
         let column = [];
@@ -149,9 +142,17 @@ function getTicTacToeCombinations(size, match) {
           }
           diagonals.push(diagonal);
         }
+        if (col <= threshold) {
+          let diagonal = [];
+          for (let i = 0; i < match; i++) {
+            diagonal.push(x + i + i * size);
+          }
+          diagonals.push(diagonal);
+        }
       }
     }
   }
 
+  console.log(diagonals);
   return [...rows, ...columns, ...diagonals];
 }
