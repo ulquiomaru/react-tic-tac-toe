@@ -3,7 +3,7 @@ import Game from "./Game";
 
 export default function App() {
   const [boardSize, setBoardSize] = useState(3);
-  const [match, setMatch] = useState(4);
+  const [match, setMatch] = useState(3);
 
   const changeBoardSize = (e) => {
     const val = e.target.value;
