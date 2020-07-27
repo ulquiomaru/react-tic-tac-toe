@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import InputSettings from "./InputSettings";
 import Game from "./Game";
 
 export default function App() {
@@ -19,21 +20,15 @@ export default function App() {
 
   return (
     <>
-      <label htmlFor="boardSize">Board Size:</label>
-      <input
-        type="number"
-        id="boardSize"
+      <InputSettings
         name="boardSize"
-        className="size-input"
+        label="Board Size:"
         value={boardSize}
         onChange={changeBoardSize}
       />
-      <label htmlFor="boardMatch">Match Condition:</label>
-      <input
-        type="number"
-        id="boardMatch"
-        name="boardMatch"
-        className="size-input"
+      <InputSettings
+        name="winCondition"
+        label="Win Condition:"
         value={match}
         onChange={changeMatchCondition}
       />
